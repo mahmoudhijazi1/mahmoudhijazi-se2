@@ -3,6 +3,7 @@ import { readCSVFile } from "./util/parsers/csvParser";
 import config from "./config";
 import { readJSONfile } from "./util/parsers/jsonParser";
 import { readXMLfile } from "./util/parsers/xmlParser";
+import { CakeBuilder } from "./model/builder/cake.builder";
 
 interface Book {
   "Order ID": string;
@@ -37,19 +38,39 @@ type ToysXML = {
 };
 
 async function main() {
-  const cakes = await readCSVFile(config.storagePath.csv.cakes, false);
+  // const cakes = await readCSVFile(config.storagePath.csv.cakes, false);
 
-  // cakes.forEach((row) => logger.info(row))
+  // // cakes.forEach((row) => logger.info(row))
 
-  const books = await readJSONfile<Book []>(config.storagePath.data.books)
+  // const books = await readJSONfile<Book []>(config.storagePath.data.books)
 
-  // books.forEach((b)=>logger.info(JSON.stringify(b)))
+  // // books.forEach((b)=>logger.info(JSON.stringify(b)))
 
-  const toysXmlData = await readXMLfile<ToysXML>(config.storagePath.data.toys)
-  const toys = toysXmlData.data.row
+  // const toysXmlData = await readXMLfile<ToysXML>(config.storagePath.data.toys)
+  // const toys = toysXmlData.data.row
 
-  toys.forEach((b)=>logger.info(JSON.stringify(b)))
+  // toys.forEach((b)=>logger.info(JSON.stringify(b)))
 
+  const cakeBuilder = new CakeBuilder();
+
+  const cake = cakeBuilder
+    .setType("Chocolate Cake")
+    .setFlavor("Chocolate")
+    .setFilling("Chocolate")
+    .setSize(1)
+    .setLayers(1)
+    .setFrostingType("Buttercream")
+    .setFrostingFlavor("Chocolate")
+    .setDecorationType("Sprinkles")
+    .setDecorationColor("Brown")
+    .setCustomMessage("Happy Birthday")
+    .setShape("Round")
+    .setAllergies("None")
+    .setSpecialIngredients("None")
+    .setPackagingType("Box")
+    .build();
+    
+  console.log(cake)
 
 }
 
