@@ -4,6 +4,8 @@ import config from "./config";
 import { readJSONfile } from "./util/parsers/jsonParser";
 import { readXMLfile } from "./util/parsers/xmlParser";
 import { CakeBuilder } from "./model/builder/cake.builder";
+import { CakeMapper } from "./mappers/cake.mapper";
+import { CSVOrderMapper } from "./mappers/order.mapper";
 
 interface Book {
   "Order ID": string;
@@ -51,26 +53,33 @@ async function main() {
 
   // toys.forEach((b)=>logger.info(JSON.stringify(b)))
 
-  const cakeBuilder = new CakeBuilder();
+  // const cakeBuilder = new CakeBuilder();
 
-  const cake = cakeBuilder
-    .setType("Chocolate Cake")
-    .setFlavor("Chocolate")
-    .setFilling("Chocolate")
-    .setSize(1)
-    .setLayers(1)
-    .setFrostingType("Buttercream")
-    .setFrostingFlavor("Chocolate")
-    .setDecorationType("Sprinkles")
-    .setDecorationColor("Brown")
-    .setCustomMessage("Happy Birthday")
-    .setShape("Round")
-    .setAllergies("None")
-    .setSpecialIngredients("None")
-    .setPackagingType("Box")
-    .build();
+  // const cake = cakeBuilder
+  //   .setType("Chocolate Cake")
+  //   .setFlavor("Chocolate")
+  //   .setFilling("Chocolate")
+  //   .setSize(1)
+  //   .setLayers(1)
+  //   .setFrostingType("Buttercream")
+  //   .setFrostingFlavor("Chocolate")
+  //   .setDecorationType("Sprinkles")
+  //   .setDecorationColor("Brown")
+  //   .setCustomMessage("Happy Birthday")
+  //   .setShape("Round")
+  //   .setAllergies("None")
+  //   .setSpecialIngredients("None")
+  //   .setPackagingType("Box")
+  //   .build();
     
-  console.log(cake)
+  // console.log(cake)
+
+  const cakesdata = await readCSVFile(config.storagePath.csv.cakes, false);
+  const cakemapper = new CakeMapper();
+  const orderMapper = new CSVOrderMapper(cakemapper)
+  const orders = cakesdata.map(r=> orderMapper.map(r));
+  logger.info("List of orders %o", orders) 
+
 
 }
 

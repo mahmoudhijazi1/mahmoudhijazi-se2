@@ -10,6 +10,10 @@ export class BookBuilder {
     private price!: number;
     private quantity!: number;
 
+    public static newBuilder():BookBuilder{
+        return new BookBuilder();
+    }
+
     public setBookTitle(bookTitle: string): this {
         this.bookTitle = bookTitle;
         return this;
