@@ -71,14 +71,14 @@ async function main() {
   //   .setSpecialIngredients("None")
   //   .setPackagingType("Box")
   //   .build();
-    
+
   // console.log(cake)
 
   const cakesdata = await readCSVFile(config.storagePath.csv.cakes, false);
   const cakemapper = new CakeMapper();
   const orderMapper = new CSVOrderMapper(cakemapper)
-  const orders = cakesdata.map(r=> orderMapper.map(r));
-  logger.info("List of orders %o", orders) 
+  const orders = cakesdata.map(orderMapper.map.bind(orderMapper));
+  logger.info("List of orders %o", orders)
 
 
 }
