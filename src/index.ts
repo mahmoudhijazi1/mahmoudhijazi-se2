@@ -6,6 +6,7 @@ import { readXMLfile } from "./util/parsers/xmlParser";
 import { CakeBuilder } from "./model/builder/cake.builder";
 import { CakeMapper } from "./mappers/cake.mapper";
 import { CSVOrderMapper } from "./mappers/order.mapper";
+import { CakeOrderRepository } from "./repository/file/cake.order.repository";
 
 interface Book {
   "Order ID": string;
@@ -74,12 +75,17 @@ async function main() {
 
   // console.log(cake)
 
-  const cakesdata = await readCSVFile(config.storagePath.csv.cakes, false);
-  const cakemapper = new CakeMapper();
-  const orderMapper = new CSVOrderMapper(cakemapper)
-  const orders = cakesdata.map(orderMapper.map.bind(orderMapper));
-  logger.info("List of orders %o", orders)
+  // const cakesdata = await readCSVFile(config.storagePath.csv.cakes, false);
+  // const cakemapper = new CakeMapper();
+  // const orderMapper = new CSVOrderMapper(cakemapper)
+  // const orders = cakesdata.map(orderMapper.map.bind(orderMapper));
+  // logger.info("List of orders %o", orders)
 
+  const path = "src/data/cake orders.csv";
+  const repo = new CakeOrderRepository(path);
+  const data = await repo.get("1");
+
+  console.log(data)
 
 }
 

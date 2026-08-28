@@ -16,4 +16,14 @@ export class CSVOrderMapper implements IMapper<string[], IOrder> {
             .setItem(item)
             .build()
     }
+
+    reverseMap(data: IOrder): string[] {
+        const item = this.itemMapper.reverseMap(data.getItem())
+        return [
+            data.getId(),  
+            ...item,        // item concatinated to the cake order list
+            data.getPrice().toString(),
+            data.getQuantity().toString(),
+        ]
+    }
 }
