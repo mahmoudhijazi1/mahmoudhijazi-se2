@@ -12,6 +12,8 @@ import { Database } from "sqlite3";
 import { ConnectionManager } from "./repository/sqlite/ConnectionManager";
 import { OrderRepository } from "./repository/sqlite/order.repository";
 import { IdentifiableOrderItemBuilder, OrderBuilder } from "./model/builder/order.builder";
+import { DBMode, RepositoryFactory } from "./repository/repository.factory";
+import { ItemCategory } from "./model/IItem";
 
 interface Book {
   "Order ID": string;
@@ -98,8 +100,9 @@ async function main() {
 
 
 async function testSqlite() {
-  const dbOrder = new OrderRepository(new CakeOrderRepository());
-  await dbOrder.init();
+  // const dbOrder = new OrderRepository(new CakeOrderRepository());
+  // await dbOrder.init();
+  const dbOrder = await RepositoryFactory.create(DBMode.SQLITE, ItemCategory.CAKE);
 
 
   const cake = CakeBuilder.newBuilder()
@@ -133,8 +136,8 @@ async function testSqlite() {
     .build();
   const idorder = IdentifiableOrderItemBuilder.newBuilder()
 
-    .setOrder(order) 
-    .setItem(idcake) 
+    .setOrder(order)
+    .setItem(idcake)
     .build();
 
   await dbOrder.create(idorder);
@@ -144,6 +147,6 @@ async function testSqlite() {
 }
 main();
 testSqlite().catch((err) => {
-  logger.error("Error in testSqlite: %o", err as Error); 
-} )
+  logger.error("Error in testSqlite: %o", err as Error);
+})
 
