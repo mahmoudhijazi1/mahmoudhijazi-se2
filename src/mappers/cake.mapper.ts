@@ -1,5 +1,5 @@
-import { CakeBuilder } from "../model/builder/cake.builder";
-import { Cake } from "../model/cake.model";
+import { CakeBuilder, IdentifiableCakeBuilder } from "../model/builder/cake.builder";
+import { Cake, IdentifiableCake } from "../model/cake.model";
 import { IMapper } from "./IMapper";
 
 export class CakeMapper implements IMapper<string[], Cake> {
@@ -39,5 +39,69 @@ export class CakeMapper implements IMapper<string[], Cake> {
             data.getSpecialIngredients(),
             data.getPackagingType(),
         ]
+    }
+}
+
+export interface ISqliteCake {
+    id: string;
+    type: string;
+    flavor: string;
+    filling: string;
+    size: number;
+    layers: number;
+    frostingType: string;
+    frostingFlavor: string;
+    decorationType: string;
+    decorationColor: string;
+    customMessage: string;
+    shape: string;
+    allergies: string;
+    specialIngredients: string;
+    packagingType: string;
+}
+export class SQLiteCakeMapper implements IMapper<ISqliteCake, IdentifiableCake> {
+    map(data: ISqliteCake): IdentifiableCake {
+        return IdentifiableCakeBuilder.newBuilder()
+            .setId(data.id)
+            .setCake(CakeBuilder.newBuilder()
+                .setType(data.type)
+                .setFlavor(data.flavor)
+                .setFilling(data.filling)
+                .setSize(data.size)
+                .setLayers(data.layers)
+                .setFrostingType(data.frostingType)
+                .setFrostingFlavor(data.frostingFlavor)
+                .setDecorationType(data.decorationType)
+                .setDecorationColor(data.decorationColor)
+                .setCustomMessage(data.customMessage)
+                .setShape(data.shape)
+                .setAllergies(data.allergies)
+                .setSpecialIngredients(data.specialIngredients)
+                .setPackagingType(data.packagingType)
+                .build()
+            )
+            .build()
+    }
+
+    
+    reverseMap(data: IdentifiableCake): ISqliteCake {
+        return {
+            id: data.getId(),   
+
+            type: data.getType(),
+            flavor: data.getFlavor(),
+            filling: data.getFilling(),
+            size: data.getSize(),
+            layers: data.getLayers(),
+            frostingType: data.getFrostingType(),
+            frostingFlavor: data.getFrostingFlavor(),
+            decorationType: data.getDecorationType(),
+            decorationColor: data.getDecorationColor(),
+            customMessage: data.getCustomMessage(),
+            shape: data.getShape(),
+            allergies: data.getAllergies(),
+            specialIngredients: data.getSpecialIngredients(),
+            packagingType: data.getPackagingType(),
+        }
     }
 }

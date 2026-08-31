@@ -1,4 +1,23 @@
-import { IItem, ItemCategory } from "./IItem";
+import { id } from "../repository/IRepository";
+import { IIdentifiableItem, IItem, ItemCategory } from "./IItem";
+
+export class IdentifiableToy implements IIdentifiableItem {
+
+	constructor(private id: id, private toy: Toy) {
+	}
+	getCategory(): ItemCategory {
+		return this.toy.getCategory();
+	}
+
+	getId(): id {
+		return this.id
+	}
+
+	getItem(): IItem {
+		return this.toy
+	}
+
+}
 
 export class Toy implements IItem {
 	private type: string;

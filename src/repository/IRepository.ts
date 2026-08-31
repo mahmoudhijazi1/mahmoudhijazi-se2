@@ -1,5 +1,9 @@
 export type id = string;
 
+export interface Initializable{
+    init():Promise<void>;
+}
+
 export interface IRepository<T extends ID>{
     create (item:T):Promise<id>
     get(id:id):Promise<T>;
@@ -11,3 +15,5 @@ export interface IRepository<T extends ID>{
 export interface ID{
     getId():id;
 }
+
+export interface InitializableRepository<T extends ID> extends IRepository<T>,Initializable{}
